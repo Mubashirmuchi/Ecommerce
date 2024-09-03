@@ -11,13 +11,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Email is required"],
       unique: true,
-      lowecase: true,
-      trim: true,
+      lowercase: true,
     },
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [6, "Must be atleast 6 charecter long"],
+      minlength: [6, "Must be at least 6 characters long"], 
     },
     cartItems: [
       {
@@ -31,7 +30,6 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
-
     role: {
       type: String,
       enum: ["customer", "admin"],
@@ -53,9 +51,12 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.method.comparePassword = async function (password) {
+userSchema.methods.comparePassword = async function (password) { 
   return bcrypt.compare(password, this.password);
 };
+
+
+
 const User = mongoose.model("User", userSchema);
 
 export default User;
